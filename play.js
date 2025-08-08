@@ -1,4 +1,4 @@
-// --- play.js 的功能增強版 ---
+// --- play.js 的功能增強版 (支援原因欄位) ---
 
 // --- 設定區 ---
 // 請確認這裡的 URL 是您最新部署的 URL
@@ -39,10 +39,11 @@ function showPage(pageId) {
     });
     document.getElementById(pageId + 'Tab').className = 'py-4 px-3 sm:px-6 font-medium text-sm sm:text-base whitespace-nowrap text-blue-600 border-b-2 border-blue-600';
 
-    if (pageId === 'leaderboard' || pageId === 'score') {
+    if (pageId === 'leaderboard' || pageId === 'score' || pageId === 'allowance') {
         loadData();
     }
 }
+
 
 function showScorePage() {
     document.getElementById('scorePasswordPrompt').classList.remove('hidden');
@@ -109,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
 });
 
-// 【已修改】加入讀取提示
 async function loadData() {
     showLeaderboardLoading(); // 顯示「正在讀取...」
     try {
@@ -119,13 +119,11 @@ async function loadData() {
         if (data.error) throw new Error(data.error);
         scores = data.scores || {};
         records = data.records || [];
-        // 成功後，以下函式會用真實資料覆蓋掉「正在讀取...」
         updateLeaderboard();
         updateMainLeaderboard();
         updateDetailedRecords();
     } catch (error) {
         console.error('Error loading data:', error);
-        // 失敗後，顯示錯誤訊息
         const errorHtml = `<div class="text-center py-10"><span class="text-red-500 font-medium">讀取資料失敗: ${error.message}</span></div>`;
         document.getElementById('mainLeaderboard').innerHTML = errorHtml;
         document.getElementById('leaderboard').innerHTML = errorHtml;
@@ -133,28 +131,35 @@ async function loadData() {
     }
 }
         
-// 【已修改】加入讀取提示
+// 【已修改】加入讀取提示和「原因」欄位
 async function submitScore() {
     const player = document.getElementById('playerSelect').value;
     const scoreAmountInput = document.getElementById('scoreAmount');
+    const reasonInput = document.getElementById('reasonInput'); // 取得原因輸入框
     const amount = parseInt(scoreAmountInput.value, 10);
+    const reason = reasonInput.value.trim(); // 取得原因文字
 
     if (!player) {
         alert('請選擇狗仔！');
         return;
     }
-    if (isNaN(amount) || amount <= 0) {
+    if (isNaN(amount) || amount === 0) { // 允許負數，但不允許0
         alert('請輸入有效的金額！');
         return;
     }
+    if (!reason) { // 確保原因不為空
+        alert('請輸入原因！');
+        return;
+    }
 
-    showLoading('成績送出中...'); // 顯示提示框
+    showLoading('成績送出中...');
     
     const formData = new FormData();
     formData.append('action', 'submitScore');
     formData.append('player', player);
     formData.append('totalScore', amount);
-    formData.append('bonuses', JSON.stringify([{ label: '手動登錄', score: amount }]));
+    // 將原因作為 label 傳送
+    formData.append('bonuses', JSON.stringify([{ label: reason, score: amount }]));
 
     try {
         const response = await fetch(API_URL, {
@@ -163,18 +168,17 @@ async function submitScore() {
         });
         const result = await response.json();
         if (result.status !== 'success') throw new Error(result.message);
-        alert(`成績已登錄！${player} 獲得 ${amount.toLocaleString()} 元`);
+        alert(`成績已登錄！${player} 變動 ${amount.toLocaleString()} 元`);
         await loadData();
         resetForm();
     } catch (error) {
         console.error('Error submitting score:', error);
         alert(`提交失敗！\n錯誤訊息: ${error.message}`);
     } finally {
-        hideLoading(); // 無論成功或失敗，最後都隱藏提示框
+        hideLoading();
     }
 }
         
-// 【已修改】加入讀取提示
 async function deleteRecord(recordId) {
     if (!confirm('確定要刪除這筆記錄嗎？')) return;
     
@@ -200,7 +204,6 @@ async function deleteRecord(recordId) {
     }
 }
 
-// 【已修改】加入讀取提示
 async function resetAllScores() {
     if (!confirm('確定要重置所有成績嗎？這個動作無法復原！')) return;
     
@@ -249,6 +252,7 @@ function updateLeaderboardContent(container) {
 function updateLeaderboard() { updateLeaderboardContent(document.getElementById('leaderboard')); }
 function updateMainLeaderboard() { updateLeaderboardContent(document.getElementById('mainLeaderboard')); }
 
+// 【已修改】優化詳細記錄的顯示方式
 function updateDetailedRecords() {
     const container = document.getElementById('detailedRecords');
     if (!records || records.length === 0) {
@@ -267,15 +271,36 @@ function updateDetailedRecords() {
         playerDiv.className = 'bg-gray-50 rounded-lg p-4 border border-gray-200';
         let recordsHtml = '';
         playerRecords.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).forEach(record => {
-            let bonusHtml = record.bonuses.map(b => `<span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1">${b.label}</span>`).join('');
-            recordsHtml += `<div class="bg-white rounded-lg p-3 border border-gray-200 mb-2"><div class="flex items-center justify-between mb-2"><span class="font-medium text-gray-800">分數登錄</span><div class="flex items-center gap-2"><span class="font-bold text-green-600">${record.totalScore.toLocaleString()}元</span><button onclick="deleteRecord(${record.id})" class="text-red-500 hover:text-red-700 text-sm">🗑️</button></div></div>${bonusHtml ? `<div class="mb-2">${bonusHtml}</div>` : ''}<div class="text-xs text-gray-500">${new Date(record.timestamp).toLocaleString('zh-TW')}</div></div>`;
+            // 從 bonuses 陣列中提取原因和分數
+            const reasonText = (record.bonuses && record.bonuses.length > 0) 
+                               ? record.bonuses[0].label 
+                               : '手動登錄';
+            const scoreText = record.totalScore > 0 
+                              ? `+${record.totalScore.toLocaleString()}` 
+                              : record.totalScore.toLocaleString();
+            const scoreColor = record.totalScore > 0 ? 'text-green-600' : 'text-red-600';
+
+            recordsHtml += `
+                <div class="bg-white rounded-lg p-3 border border-gray-200 mb-2">
+                    <div class="flex items-start justify-between">
+                        <span class="font-medium text-gray-800 flex-1 pr-4">${reasonText}</span>
+                        <div class="flex items-center gap-3 flex-shrink-0">
+                            <span class="font-bold text-lg ${scoreColor}">${scoreText}元</span>
+                            <button onclick="deleteRecord(${record.id})" class="text-gray-400 hover:text-red-600 text-lg leading-none">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-500 text-right mt-1">${new Date(record.timestamp).toLocaleString('zh-TW')}</div>
+                </div>
+            `;
         });
         playerDiv.innerHTML = `<h4 class="font-bold text-lg text-gray-800 mb-3">${player} (總獎金: ${scores[player] ? scores[player].toLocaleString() : 0}元)</h4>${recordsHtml}`;
         container.appendChild(playerDiv);
     });
 }
 
+// 【已修改】一併清除原因欄位
 function resetForm() {
     document.getElementById('playerSelect').value = '';
     document.getElementById('scoreAmount').value = '';
+    document.getElementById('reasonInput').value = ''; // 清除原因輸入框
 }

@@ -50,7 +50,7 @@
     <div class="gradient-bg text-white py-8">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">🎬 神秘狗仔與女明星</h1>
-            <h2 class="text-2xl md:text-3xl font-medium mb-2">之罷免遊戲長大挑戰</h2>
+            <h2 class="text-2xl md:text-3xl font-medium mb-2">之薪資加給賽</h2>
             <div class="bg-white bg-opacity-20 rounded-full px-6 py-2 inline-block">
                 <span class="text-lg font-medium">🗓️ 2025/08/16 ~ 2025/08/18</span>
             </div>
@@ -62,6 +62,9 @@
             <div class="flex justify-center space-x-2 sm:space-x-4 md:space-x-8">
                 <button onclick="showPage('guide')" id="guideTab" class="py-4 px-3 sm:px-6 font-medium text-sm sm:text-base whitespace-nowrap text-blue-600 border-b-2 border-blue-600">
                     📖 規則
+                </button>
+                 <button onclick="showPage('allowance')" id="allowanceTab" class="py-4 px-3 sm:px-6 font-medium text-sm sm:text-base whitespace-nowrap text-gray-500 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition duration-300">
+                    💰 加給
                 </button>
                 <button onclick="showPage('leaderboard')" id="leaderboardTab" class="py-4 px-3 sm:px-6 font-medium text-sm sm:text-base whitespace-nowrap text-gray-500 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition duration-300">
                     🏆 排行榜
@@ -80,7 +83,7 @@
                     🎯 任務規則
                 </h3>
                 <p class="text-gray-700 leading-relaxed text-lg mb-4">
-                    每位玩家將隨機抽取一張任務卡，卡片上包含：
+                    每位狗仔都會抽到一位自己要偷拍的任務：
                 </p>
                 <div class="space-y-2 mb-4">
                     <div class="flex items-center">
@@ -92,15 +95,16 @@
                         <span class="text-gray-700">一個「指定動作」</span>
                     </div>
                 </div>
-                <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
-                    <h4 class="font-semibold text-blue-800 mb-2">例如：</h4>
-                    <p class="text-blue-700 mb-2">抽到「芮儀」 +「比ya的樣子」</p>
-                    <p class="text-blue-700">➡️ 任務就是拍攝所有人在「比ya」的瞬間，拍到指定女明星「芮儀」的照片會更多錢。</p>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4">
+                        <p class="font-bold text-red-800">
+                            請注意！千萬不能讓你的狗仔身份被發現！
+                        </p>
+                        <p class="text-red-700">
+                            否則將會嚴重影響到你的排名結果！
+                        </p>
                 </div>
 
-                <div class="mt-4">
-                    <img src="example.png" alt="遊戲範例圖片" class="rounded-lg shadow-md" style="max-width: 50%;">
-                </div>
             </div>
 
             <div class="bg-white rounded-xl card-shadow p-6 mb-8">
@@ -114,7 +118,7 @@
                             <span class="bg-green-500 text-white px-3 py-1 rounded-full font-bold">10,000 元</span>
                         </div>
                         <div class="flex items-center justify-between bg-blue-50 rounded-lg p-4 border border-blue-200">
-                            <span class="text-blue-700 font-medium">指定的女明星也出現</span>
+                            <span class="text-blue-700 font-medium">指定女明星也出現</span>
                             <span class="bg-blue-500 text-white px-3 py-1 rounded-full font-bold">額外 +10,000 元</span>
                         </div>
                         <div class="flex items-center justify-between bg-purple-50 rounded-lg p-4 border border-purple-200">
@@ -128,25 +132,37 @@
                             每張照片限制3人（皆要有雙眼鼻子嘴巴）
                         </p>
                     </div>
+
+                <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <h4 class="font-semibold text-blue-800 mb-2">例如：</h4>
+                    <p class="text-blue-700 mb-2">抽到「芮儀」 +「比ya的樣子」</p>
+                    <p class="text-blue-700">➡️ 任務就是拍攝所有人在「比ya」的瞬間，拍到指定女明星「芮儀」的照片會更多錢。</p>
+                </div>
+
+                <div class="mt-4">
+                    <img src="example.png" alt="遊戲範例圖片" class="rounded-lg shadow-md" style="max-width: 50%;">
+                </div>
+
+
                 </div>
             </div>
 
             <div class="bg-white rounded-xl card-shadow p-6 mb-8">
                 <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                    📤 照片收集與檢查建議流程
+                    📤 照片數量與繳交
                 </h3>
-                <div class="space-y-4">
-                    <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
-                        <h4 class="font-semibold text-blue-800 mb-2">📸 提交規則：</h4>
-                        <p class="text-blue-700">每位狗仔最多只能交10張照片</p>
+                <div class="space-y-3">
+                    <div class="flex items-center bg-gray-100 p-4 rounded-lg">
+                        <span class="text-2xl mr-4">📸</span>
+                        <p class="text-gray-800 font-medium">每位狗仔最多交10張照片</p>
                     </div>
-                    <div class="bg-green-50 rounded-lg p-4 border border-green-200">
-                        <h4 class="font-semibold text-green-800 mb-2">📁 相簿設置：</h4>
-                        <p class="text-green-700">和遊戲長設置一個相簿</p>
+                    <div class="flex items-center bg-gray-100 p-4 rounded-lg">
+                        <span class="text-2xl mr-4">📲</span>
+                        <p class="text-gray-800 font-medium">傳至和朱的私訊相簿</p>
                     </div>
-                    <div class="bg-red-50 rounded-lg p-4 border border-red-200">
-                        <h4 class="font-semibold text-red-800 mb-2">⏰ 截止時間：</h4>
-                        <p class="text-red-700 font-bold">8/17 晚上 10 點截止</p>
+                    <div class="flex items-center bg-gray-100 p-4 rounded-lg">
+                        <span class="text-2xl mr-4">⏰</span>
+                        <p class="text-gray-800 font-medium">8/17 晚上 10 點截止</p>
                     </div>
                 </div>
             </div>
@@ -157,6 +173,38 @@
             </div>
         </div>
     </div>
+    
+    <div id="allowancePage" class="page">
+        <div class="container mx-auto px-4 py-8 max-w-4xl">
+            <div class="bg-white rounded-xl card-shadow p-6">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">✨ 職務加給 ✨</h3>
+                <div class="space-y-6">
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                        <h4 class="font-bold text-blue-800 text-lg mb-2">💼 行政加給</h4>
+                        <p class="text-blue-700">社畜會有的體貼行為 (拿餐具、點餐、結帳)</p>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4">
+                        <h4 class="font-bold text-green-800 text-lg mb-2">👩‍🏫 導師加給</h4>
+                        <p class="text-green-700">富有導師風範的行為 (維持秩序、主導活動)</p>
+                    </div>
+                    <div class="bg-purple-50 border-l-4 border-purple-400 p-4">
+                        <h4 class="font-bold text-purple-800 text-lg mb-2">🤝 特教職務加給</h4>
+                        <p class="text-purple-700">關懷弱勢的行為 (讓座、翻譯、指路)</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-yellow-100 border-t-4 border-yellow-500 rounded-b text-yellow-900 px-4 py-3 shadow-md" role="alert">
+                    <div class="flex">
+                        <div class="py-1"><svg class="fill-current h-6 w-6 text-yellow-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm-1-11V6a1 1 0 1 1 2 0v3h-2zm1 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></div>
+                        <div>
+                            <p class="font-bold">遊戲長不會明說行為內容</p>
+                            <p class="text-sm">但是若有出現相關行為將會得到 <span class="font-bold">1000元</span> 加薪！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div id="leaderboardPage" class="page">
         <div class="container mx-auto px-4 py-8 max-w-4xl">
@@ -171,92 +219,98 @@
         </div>
     </div>
 
-    <div id="scorePage" class="page">
-        <div class="container mx-auto px-4 py-8 max-w-6xl">
-            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                    🎲 抽籤管理
-                </h3>
-                <div class="flex gap-4 items-center">
-                    <button onclick="runFullLottery()" class="bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold py-3 px-8 rounded-lg hover:from-pink-600 hover:to-rose-700 transition duration-300">
-                        執行全體抽籤
+<div id="scorePage" class="page">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                🎲 抽籤管理
+            </h3>
+            <div class="flex gap-4 items-center">
+                <button onclick="runFullLottery()" class="bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold py-3 px-8 rounded-lg hover:from-pink-600 hover:to-rose-700 transition duration-300">
+                    執行全體抽籤
+                </button>
+                <p class="text-sm text-gray-500">點擊按鈕將為所有玩家分配任務，結果會顯示在下方。</p>
+            </div>
+            <div id="fullLotteryResults" class="mt-6">
+                <div class="text-gray-500 text-center py-4">尚未執行抽籤</div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                📝 成績登錄
+            </h3>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">選擇狗仔：</label>
+                    <select id="playerSelect" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">請選擇狗仔...</option>
+                        <option value="張莘昕">張莘昕</option>
+                        <option value="謝宛庭">謝宛庭</option>
+                        <option value="林翠萍">林翠萍</option>
+                        <option value="林晏儀">林晏儀</option>
+                        <option value="黃佳儀">黃佳儀</option>
+                        <option value="李欣諭">李欣諭</option>
+                        <option value="陳盈妙">陳盈妙</option>
+                        <option value="陳孟欣">陳孟欣</option>
+                        <option value="高鈺雅">高鈺雅</option>
+                        <option value="洪于茜">洪于茜</option>
+                        <option value="李侑蓁">李侑蓁</option>
+                        <option value="陳屏慈">陳屏慈</option>
+                        <option value="黃怡茹">黃怡茹</option>
+                        <option value="鍾采珍">鍾采珍</option>
+                        <option value="李玨瑩">李玨瑩</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">輸入金額：</label>
+                    <input type="number" id="scoreAmount" placeholder="請直接輸入總金額..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">輸入原因：</label>
+                    <input type="text" id="reasonInput" placeholder="請輸入加分原因 (例如：職務加給)..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+            </div>
+
+            <div class="mt-8 flex items-center justify-end">
+                <div class="flex gap-3">
+                    <button onclick="resetForm()" class="bg-gray-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-600 transition duration-300">
+                        清除
                     </button>
-                    <p class="text-sm text-gray-500">點擊按鈕將為所有玩家分配任務，結果會顯示在下方。</p>
-                </div>
-                <div id="fullLotteryResults" class="mt-6">
-                    <div class="text-gray-500 text-center py-4">尚未執行抽籤</div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                    📝 成績登錄
-                </h3>
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">選擇狗仔：</label>
-                        <select id="playerSelect" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">請選擇狗仔...</option>
-                            <option value="張莘昕">張莘昕</option>
-                            <option value="謝宛庭">謝宛庭</option>
-                            <option value="林翠萍">林翠萍</option>
-                            <option value="林晏儀">林晏儀</option>
-                            <option value="黃佳儀">黃佳儀</option>
-                            <option value="李欣諭">李欣諭</option>
-                            <option value="陳盈妙">陳盈妙</option>
-                            <option value="陳孟欣">陳孟欣</option>
-                            <option value="高鈺雅">高鈺雅</option>
-                            <option value="洪于茜">洪于茜</option>
-                            <option value="李侑蓁">李侑蓁</option>
-                            <option value="陳屏慈">陳屏慈</option>
-                            <option value="黃怡茹">黃怡茹</option>
-                            <option value="鍾采珍">鍾采珍</option>
-                            <option value="李玨瑩">李玨瑩</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">輸入金額：</label>
-                        <input type="number" id="scoreAmount" placeholder="請直接輸入總金額..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                </div>
-
-                <div class="mt-8 flex items-center justify-end">
-                    <div class="flex gap-3">
-                        <button onclick="resetForm()" class="bg-gray-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-600 transition duration-300">
-                            清除
-                        </button>
-                        <button onclick="submitScore()" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 px-8 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-300">
-                            送出成績
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
-                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                    🏆 狗仔排行榜
-                </h3>
-                <div id="leaderboard" class="space-y-3">
-                    <div class="text-gray-500 text-center py-8">尚無成績記錄</div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl card-shadow p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-2xl font-bold text-gray-800 flex items-center">
-                        📋 詳細成績記錄
-                    </h3>
-                    <button onclick="resetAllScores()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 text-sm">
-                        🗑️ 重置所有成績
+                    <button onclick="submitScore()" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 px-8 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-300">
+                        送出成績
                     </button>
-                </div>
-                <div id="detailedRecords" class="space-y-4">
-                    <div class="text-gray-500 text-center py-8">尚無詳細記錄</div>
                 </div>
             </div>
         </div>
+
+        <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                🏆 狗仔排行榜
+            </h3>
+            <div id="leaderboard" class="space-y-3">
+                <div class="text-gray-500 text-center py-8">尚無成績記錄</div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl card-shadow p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 flex items-center">
+                    📋 詳細成績記錄
+                </h3>
+                <button onclick="resetAllScores()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 text-sm">
+                    🗑️ 重置所有成績
+                </button>
+            </div>
+            <div id="detailedRecords" class="space-y-4">
+                <div class="text-gray-500 text-center py-8">尚無詳細記錄</div>
+            </div>
+        </div>
     </div>
+</div>
 
     <div id="scorePasswordPrompt" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white rounded-xl card-shadow p-8 max-w-md w-full mx-4">
@@ -289,7 +343,5 @@
     </div>
 
     <script src="play.js"></script>
-</body>
-</html>
 </body>
 </html>
