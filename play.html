@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘狗仔與女明星：台南旅拍大挑戰</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .task-item {
+            transition: all 0.3s ease;
+        }
+        .task-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .score-item {
+            transition: all 0.3s ease;
+        }
+        .score-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="gradient-bg text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">🎬 神秘狗仔與女明星</h1>
+            <h2 class="text-2xl md:text-3xl font-medium mb-2">之罷免遊戲長大挑戰</h2>
+            <div class="bg-white bg-opacity-20 rounded-full px-6 py-2 inline-block">
+                <span class="text-lg font-medium">🗓️ 2025/08/16 ~ 2025/08/18</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-8">
+                <button onclick="showPage('guide')" id="guideTab" class="py-4 px-6 font-medium text-blue-600 border-b-2 border-blue-600">
+                    📖 遊戲指南
+                </button>
+                <button onclick="showPage('leaderboard')" id="leaderboardTab" class="py-4 px-6 font-medium text-gray-500 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition duration-300">
+                    🏆 狗仔排行榜
+                </button>
+                <button onclick="showScorePage()" id="scoreTab" class="py-4 px-6 font-medium text-gray-500 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition duration-300">
+                    📊 後台管理
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="guidePage" class="page active">
+        <div class="container mx-auto px-4 py-8 max-w-4xl">
+            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                    🎯 任務規則
+                </h3>
+                <p class="text-gray-700 leading-relaxed text-lg mb-4">
+                    每位玩家將隨機抽取一張任務卡，卡片上包含：
+                </p>
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center">
+                        <span class="text-green-500 mr-2">✅</span>
+                        <span class="text-gray-700">一位「女明星」</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-green-500 mr-2">✅</span>
+                        <span class="text-gray-700">一個「指定動作」</span>
+                    </div>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <h4 class="font-semibold text-blue-800 mb-2">例如：</h4>
+                    <p class="text-blue-700 mb-2">抽到「芮儀」 +「比ya的樣子」</p>
+                    <p class="text-blue-700">➡️ 任務就是拍攝所有人在「比ya」的瞬間，拍到指定女明星「芮儀」的照片會更多錢。</p>
+                </div>
+
+                <div class="mt-4">
+                    <img src="example.png" alt="遊戲範例圖片" class="rounded-lg shadow-md" style="max-width: 50%;">
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                    📸 拍攝與得分規則
+                </h3>
+                <div class="space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between bg-green-50 rounded-lg p-4 border border-green-200">
+                            <span class="text-green-700 font-medium">拍到執行該動作的人</span>
+                            <span class="bg-green-500 text-white px-3 py-1 rounded-full font-bold">10,000 元</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-blue-50 rounded-lg p-4 border border-blue-200">
+                            <span class="text-blue-700 font-medium">指定的女明星也出現</span>
+                            <span class="bg-blue-500 text-white px-3 py-1 rounded-full font-bold">額外 +10,000 元</span>
+                        </div>
+                        <div class="flex items-center justify-between bg-purple-50 rounded-lg p-4 border border-purple-200">
+                            <span class="text-purple-700 font-medium">拍到遊戲長</span>
+                            <span class="bg-purple-500 text-white px-3 py-1 rounded-full font-bold">額外 +5,000 元</span>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                        <h4 class="font-semibold text-yellow-800 mb-2">📷 拍攝限制：</h4>
+                        <p class="text-yellow-700">
+                            每張照片限制3人（皆要有雙眼鼻子嘴巴）
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                    📤 照片收集與檢查建議流程
+                </h3>
+                <div class="space-y-4">
+                    <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                        <h4 class="font-semibold text-blue-800 mb-2">📸 提交規則：</h4>
+                        <p class="text-blue-700">每位狗仔最多只能交10張照片</p>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+                        <h4 class="font-semibold text-green-800 mb-2">📁 相簿設置：</h4>
+                        <p class="text-green-700">和遊戲長設置一個相簿</p>
+                    </div>
+                    <div class="bg-red-50 rounded-lg p-4 border border-red-200">
+                        <h4 class="font-semibold text-red-800 mb-2">⏰ 截止時間：</h4>
+                        <p class="text-red-700 font-bold">8/17 晚上 10 點截止</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+                    <button onclick="showLotteryPage()" class="bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold py-4 px-8 rounded-lg hover:from-pink-600 hover:to-rose-700 transition duration-300 text-lg">
+                        🎯 開始抽籤
+                    </button>
+
+           
+
+            <div class="text-center mt-8 py-6">
+                <div class="pulse-animation text-4xl mb-2">🏆</div>
+                <p class="text-gray-600 font-medium">祝各位狗仔們拍攝愉快，成為最強攝影大師！</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="leaderboardPage" class="page">
+        <div class="container mx-auto px-4 py-8 max-w-4xl">
+            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    🏆 狗仔排行榜
+                </h3>
+                <div id="mainLeaderboard" class="space-y-3">
+                    <div class="text-gray-500 text-center py-8">尚無成績記錄</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="scorePage" class="page">
+        <div class="container mx-auto px-4 py-8 max-w-6xl">
+            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    📝 成績登錄
+                </h3>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">選擇狗仔：</label>
+                        <select id="playerSelect" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">請選擇狗仔...</option>
+                            <option value="張莘昕">張莘昕</option>
+                            <option value="謝宛庭">謝宛庭</option>
+                            <option value="林翠萍">林翠萍</option>
+                            <option value="林晏儀">林晏儀</option>
+                            <option value="黃佳儀">黃佳儀</option>
+                            <option value="李欣諭">李欣諭</option>
+                            <option value="陳盈妙">陳盈妙</option>
+                            <option value="陳孟欣">陳孟欣</option>
+                            <option value="高鈺雅">高鈺雅</option>
+                            <option value="洪于茜">洪于茜</option>
+                            <option value="李侑蓁">李侑蓁</option>
+                            <option value="陳屏慈">陳屏慈</option>
+                            <option value="黃怡茹">黃怡茹</option>
+                            <option value="鍾采珍">鍾采珍</option>
+                            <option value="李玨瑩">李玨瑩</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">執行該動作的人數（最多3人）：</label>
+                        <select id="peopleCount" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">請選擇人數...</option>
+                            <option value="1">1人 (10,000元)</option>
+                            <option value="2">2人 (20,000元)</option>
+                            <option value="3">3人 (30,000元)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">額外加分條件（可多選）：</label>
+                        <div class="space-y-3">
+                            <label class="flex items-center bg-blue-50 rounded-lg p-3 border border-blue-200 cursor-pointer hover:bg-blue-100">
+                                <input type="checkbox" id="bonus1" value="10000" class="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                <span class="text-blue-700 font-medium flex-1">指定的女明星也出現</span>
+                                <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-sm font-bold">+10,000元</span>
+                            </label>
+                            
+                            <label class="flex items-center bg-purple-50 rounded-lg p-3 border border-purple-200 cursor-pointer hover:bg-purple-100">
+                                <input type="checkbox" id="bonus2" value="5000" class="mr-3 h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                                <span class="text-purple-700 font-medium flex-1">拍到遊戲長</span>
+                                <span class="bg-purple-500 text-white px-2 py-1 rounded-full text-sm font-bold">+5,000元</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                        <p class="text-yellow-800 text-sm">
+                            ⚠️ 每張照片限制3人（皆要有雙眼鼻子嘴巴）
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-6 flex items-center justify-between">
+                    <div class="text-lg font-bold text-gray-700">
+                        預計得分：<span id="previewScore" class="text-blue-600">0</span> 元
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="resetForm()" class="bg-gray-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-600 transition duration-300">
+                            清除
+                        </button>
+                        <button onclick="submitScore()" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-3 px-8 rounded-lg hover:from-green-600 hover:to-emerald-700 transition duration-300">
+                            送出成績
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    ⭐ 其他加分項目
+                </h3>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">選擇狗仔：</label>
+                        <select id="otherBonusPlayerSelect" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            <option value="">請選擇狗仔...</option>
+                            <option value="張莘昕">張莘昕</option>
+                            <option value="謝宛庭">謝宛庭</option>
+                            <option value="林翠萍">林翠萍</option>
+                            <option value="林晏儀">林晏儀</option>
+                            <option value="黃佳儀">黃佳儀</option>
+                            <option value="李欣諭">李欣諭</option>
+                            <option value="陳盈妙">陳盈妙</option>
+                            <option value="陳孟欣">陳孟欣</option>
+                            <option value="高鈺雅">高鈺雅</option>
+                            <option value="洪于茜">洪于茜</option>
+                            <option value="李侑蓁">李侑蓁</option>
+                            <option value="陳屏慈">陳屏慈</option>
+                            <option value="黃怡茹">黃怡茹</option>
+                            <option value="鍾采珍">鍾采珍</option>
+                            <option value="李玨瑩">李玨瑩</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">選擇加分項目：</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="flex items-center bg-green-50 rounded-lg p-4 border border-green-200">
+                                <input type="radio" name="otherBonusAmount" id="otherBonus10000" value="10000" class="mr-3 h-4 w-4 text-green-600 focus:ring-green-500">
+                                <label for="otherBonus10000" class="flex-1 cursor-pointer">
+                                    <span class="bg-green-500 text-white px-3 py-2 rounded-full text-sm font-bold">+10,000元</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center bg-teal-50 rounded-lg p-4 border border-teal-200">
+                                <input type="radio" name="otherBonusAmount" id="otherBonus8000" value="8000" class="mr-3 h-4 w-4 text-teal-600 focus:ring-teal-500">
+                                <label for="otherBonus8000" class="flex-1 cursor-pointer">
+                                    <span class="bg-teal-500 text-white px-3 py-2 rounded-full text-sm font-bold">+8,000元</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center bg-indigo-50 rounded-lg p-4 border border-indigo-200">
+                                <input type="radio" name="otherBonusAmount" id="otherBonus6000" value="6000" class="mr-3 h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                                <label for="otherBonus6000" class="flex-1 cursor-pointer">
+                                    <span class="bg-indigo-500 text-white px-3 py-2 rounded-full text-sm font-bold">+6,000元</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center bg-pink-50 rounded-lg p-4 border border-pink-200">
+                                <input type="radio" name="otherBonusAmount" id="otherBonus4000" value="4000" class="mr-3 h-4 w-4 text-pink-600 focus:ring-pink-500">
+                                <label for="otherBonus4000" class="flex-1 cursor-pointer">
+                                    <span class="bg-pink-500 text-white px-3 py-2 rounded-full text-sm font-bold">+4,000元</span>
+                                </label>
+                            </div>
+                            
+                            <div class="flex items-center bg-orange-50 rounded-lg p-4 border border-orange-200 md:col-span-2">
+                                <input type="radio" name="otherBonusAmount" id="otherBonus2000" value="2000" class="mr-3 h-4 w-4 text-orange-600 focus:ring-orange-500">
+                                <label for="otherBonus2000" class="flex-1 cursor-pointer">
+                                    <span class="bg-orange-500 text-white px-3 py-2 rounded-full text-sm font-bold">+2,000元</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">加分原因：</label>
+                        <input type="text" id="otherBonusReason" placeholder="請輸入加分原因..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                    </div>
+                </div>
+
+                <div class="mt-6 flex items-center justify-between">
+                    <div class="text-lg font-bold text-gray-700">
+                        加分金額：<span id="otherBonusPreview" class="text-purple-600">0</span> 元
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="resetOtherBonusForm()" class="bg-gray-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-600 transition duration-300">
+                            清除
+                        </button>
+                        <button onclick="submitOtherBonus()" class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                            送出加分
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl card-shadow p-6 mb-8">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    🏆 狗仔排行榜
+                </h3>
+                <div id="leaderboard" class="space-y-3">
+                    <div class="text-gray-500 text-center py-8">尚無成績記錄</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl card-shadow p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 flex items-center">
+                        📋 詳細成績記錄
+                    </h3>
+                    <button onclick="resetAllScores()" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300 text-sm">
+                        🗑️ 重置所有成績
+                    </button>
+                </div>
+                <div id="detailedRecords" class="space-y-4">
+                    <div class="text-gray-500 text-center py-8">尚無詳細記錄</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lotteryPage" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl card-shadow p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">🎲 身份抽籤</h3>
+            
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">選擇你的名字：</label>
+                <select id="lotteryPlayerSelect" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 text-lg">
+                    <option value="">請選擇...</option>
+                    <option value="張莘昕">張莘昕</option>
+                    <option value="謝宛庭">謝宛庭 (16-17日參與)</option>
+                    <option value="林翠萍">林翠萍</option>
+                    <option value="林晏儀">林晏儀 (17-18日參與)</option>
+                    <option value="黃佳儀">黃佳儀</option>
+                    <option value="李欣諭">李欣諭</option>
+                    <option value="陳盈妙">陳盈妙</option>
+                    <option value="陳孟欣">陳孟欣</option>
+                    <option value="高鈺雅">高鈺雅</option>
+                    <option value="洪于茜">洪于茜</option>
+                    <option value="李侑蓁">李侑蓁</option>
+                    <option value="陳屏慈">陳屏慈</option>
+                    <option value="黃怡茹">黃怡茹</option>
+                    <option value="鍾采珍">鍾采珍</option>
+                    <option value="李玨瑩">李玨瑩</option>
+                </select>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="drawLottery()" class="flex-1 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold py-3 px-6 rounded-lg hover:from-pink-600 hover:to-rose-700 transition duration-300">
+                    🎯 開始抽籤
+                </button>
+                <button onclick="hideLotteryPage()" class="flex-1 bg-gray-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-600 transition duration-300">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="lotteryResult" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl card-shadow p-8 max-w-md w-full mx-4 text-center">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">🎉 抽籤結果</h3>
+            <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg p-6 mb-6 border border-pink-200">
+                <p class="text-gray-700 mb-2">狗仔：<span id="playerName" class="font-bold text-pink-600"></span></p>
+                <p class="text-gray-700">你的女明星：<span id="targetName" class="font-bold text-rose-600 text-2xl"></span></p>
+                <p class="text-gray-700 mt-2">指定動作：<span id="actionName" class="font-bold text-purple-600 text-2xl"></span></p>
+            </div>
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+                <p class="text-yellow-800 text-sm">⚠️ 請務必保密你的女明星身份！</p>
+            </div>
+            <button onclick="hideLotteryResult()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-purple-700 transition duration-300">
+                確認
+            </button>
+        </div>
+    </div>
+
+    <div id="scorePasswordPrompt" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl card-shadow p-8 max-w-md w-full mx-4">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">🔒 後台管理驗證</h3>
+            
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">請輸入密碼：</label>
+                <input type="password" id="scorePasswordInput" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-lg" placeholder="輸入密碼">
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="checkScorePassword()" class="flex-1 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-600 hover:to-indigo-700 transition duration-300">
+                    確認
+                </button>
+                <button onclick="hideScorePasswordPrompt()" class="flex-1 bg-gray-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-600 transition duration-300">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwzaalwM3xfioMfUU4SXINaXGR2Kv_TyKE2stsQKFfptvTG1HfaEp5DYvfpKg_fBkmMsA/exec';
+        let scores = {};
+        let records = [];
+        let players = ['張莘昕', '謝宛庭', '林翠萍', '林晏儀', '黃佳儀', '李欣諭', '陳盈妙', '陳孟欣', '高鈺雅', '洪于茜', '李侑蓁', '陳屏慈', '黃怡茹', '鍾采珍', '李玨瑩'];
+        let availableTargets = [...players];
+        let actions = ['飲食', '使用民宿設施（不包含玩遊戲設施）', '玩遊戲', '笑的樣子', '不笑的樣子'];
+        let lotteryResults = [];
+
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId + 'Page').classList.add('active');
+            
+            document.querySelectorAll('button[id$="Tab"]').forEach(tab => {
+                tab.className = 'py-4 px-6 font-medium text-gray-500 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 transition duration-300';
+            });
+            document.getElementById(pageId + 'Tab').className = 'py-4 px-6 font-medium text-blue-600 border-b-2 border-blue-600';
+
+            // Load data when a relevant page is shown
+            if (pageId === 'leaderboard' || pageId === 'score') {
+                loadData();
+            }
+        }
+
+        function showScorePage() {
+            document.getElementById('scorePasswordPrompt').classList.remove('hidden');
+        }
+
+        function hideScorePasswordPrompt() {
+            document.getElementById('scorePasswordPrompt').classList.add('hidden');
+            document.getElementById('scorePasswordInput').value = '';
+        }
+
+        function checkScorePassword() {
+            const password = document.getElementById('scorePasswordInput').value;
+            if (password === '8787') {
+                document.getElementById('scorePasswordPrompt').classList.add('hidden');
+                showPage('score');
+            } else {
+                alert('密碼錯誤！');
+                document.getElementById('scorePasswordInput').value = '';
+            }
+        }
+
+        // Lottery functions
+        function showLotteryPage() {
+            document.getElementById('lotteryPage').classList.remove('hidden');
+        }
+
+        function hideLotteryPage() {
+            document.getElementById('lotteryPage').classList.add('hidden');
+        }
+
+        function hideLotteryResult() {
+            document.getElementById('lotteryResult').classList.add('hidden');
+            document.getElementById('lotteryPage').classList.add('hidden');
+        }
+
+        function drawLottery() {
+            const selectedPlayer = document.getElementById('lotteryPlayerSelect').value;
+            
+            if (!selectedPlayer) {
+                alert('請先選擇你的名字！');
+                return;
+            }
+
+            if (lotteryResults.find(result => result.player === selectedPlayer)) {
+                alert('你已經抽過籤了！');
+                return;
+            }
+
+            const playerIndex = availableTargets.indexOf(selectedPlayer);
+            if (playerIndex > -1) {
+                availableTargets.splice(playerIndex, 1);
+            }
+
+            if (availableTargets.length === 0) {
+                alert('所有人都已經被抽完了！');
+                return;
+            }
+
+            const randomTargetIndex = Math.floor(Math.random() * availableTargets.length);
+            const selectedTarget = availableTargets[randomTargetIndex];
+            
+            const randomActionIndex = Math.floor(Math.random() * actions.length);
+            const selectedAction = actions[randomActionIndex];
+            
+            availableTargets.splice(randomTargetIndex, 1);
+
+            lotteryResults.push({
+                player: selectedPlayer,
+                target: selectedTarget,
+                action: selectedAction
+            });
+
+            document.getElementById('playerName').textContent = selectedPlayer;
+            document.getElementById('targetName').textContent = selectedTarget;
+            document.getElementById('actionName').textContent = selectedAction;
+            document.getElementById('lotteryResult').classList.remove('hidden');
+        }
+
+        // Score system functions
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updatePreviewScore);
+            });
+
+            const peopleCountSelect = document.getElementById('peopleCount');
+            peopleCountSelect.addEventListener('change', updatePreviewScore);
+
+            const otherBonusRadios = document.querySelectorAll('input[name="otherBonusAmount"]');
+            otherBonusRadios.forEach(radio => {
+                radio.addEventListener('change', updateOtherBonusPreview);
+            });
+
+            document.getElementById('scorePasswordInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkScorePassword();
+            });
+            
+            loadData();
+        });
+
+        async function loadData() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                scores = data.scores || {};
+                records = data.records || [];
+                
+                updateLeaderboard();
+                updateMainLeaderboard();
+                updateDetailedRecords();
+            } catch (error) {
+                console.error('Error loading data from Google Sheets:', error);
+            }
+        }
+
+        function updatePreviewScore() {
+            let total = 0;
+            const peopleCount = document.getElementById('peopleCount').value;
+            if (peopleCount) {
+                total += parseInt(peopleCount) * 10000;
+            }
+            
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach(checkbox => {
+                total += parseFloat(checkbox.value);
+            });
+            
+            document.getElementById('previewScore').textContent = total.toLocaleString();
+        }
+
+        async function submitScore() {
+            const player = document.getElementById('playerSelect').value;
+            const peopleCount = document.getElementById('peopleCount').value;
+            
+            if (!player) {
+                alert('請選擇狗仔！');
+                return;
+            }
+            
+            if (!peopleCount) {
+                alert('請選擇執行動作的人數！');
+                return;
+            }
+
+            let totalScore = parseInt(peopleCount) * 10000;
+            let bonuses = [];
+            
+            bonuses.push({
+                label: `${peopleCount}人執行動作`,
+                score: parseInt(peopleCount) * 10000
+            });
+            
+            const fixedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            fixedCheckboxes.forEach(checkbox => {
+                const bonus = parseFloat(checkbox.value);
+                totalScore += bonus;
+                const label = checkbox.parentElement.querySelector('span').textContent;
+                bonuses.push({ label: label, score: bonus });
+            });
+            
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'submitScore',
+                        player: player,
+                        peopleCount: peopleCount,
+                        bonuses: bonuses,
+                        totalScore: totalScore
+                    })
+                });
+                
+                alert(`成績已登錄！${player} 獲得 ${totalScore.toLocaleString()} 元`);
+                await loadData();
+                resetForm();
+                
+            } catch (error) {
+                console.error('Error submitting score:', error);
+                alert('提交成績失敗，請檢查網路連線。');
+            }
+        }
+
+        function updateOtherBonusPreview() {
+            const selectedRadio = document.querySelector('input[name="otherBonusAmount"]:checked');
+            const preview = document.getElementById('otherBonusPreview');
+            
+            if (selectedRadio) {
+                preview.textContent = parseInt(selectedRadio.value).toLocaleString();
+            } else {
+                preview.textContent = '0';
+            }
+        }
+
+// 修改後的 submitScore 函式
+async function submitScore() {
+    const player = document.getElementById('playerSelect').value;
+    const peopleCount = document.getElementById('peopleCount').value;
+    
+    if (!player) {
+        alert('請選擇狗仔！');
+        return;
+    }
+    
+    if (!peopleCount) {
+        alert('請選擇執行動作的人數！');
+        return;
+    }
+
+    let totalScore = parseInt(peopleCount) * 10000;
+    let bonuses = [];
+    
+    bonuses.push({
+        label: `${peopleCount}人執行動作`,
+        score: parseInt(peopleCount) * 10000
+    });
+    
+    const fixedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    fixedCheckboxes.forEach(checkbox => {
+        const bonus = parseFloat(checkbox.value);
+        totalScore += bonus;
+        const label = checkbox.parentElement.querySelector('span').textContent;
+        bonuses.push({ label: label, score: bonus });
+    });
+    
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'submitScore',
+                player: player,
+                peopleCount: peopleCount,
+                bonuses: bonuses,
+                totalScore: totalScore
+            })
+        });
+        
+        // 檢查回應是否成功，但不強制解析為JSON
+        if (response.ok) {
+             alert(`成績已登錄！${player} 獲得 ${totalScore.toLocaleString()} 元`);
+             await loadData();
+             resetForm();
+        } else {
+             throw new Error(`伺服器回應錯誤: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error submitting score:', error);
+        alert('提交成績失敗，請檢查網路連線。');
+    }
+}
+
+// 修改後的 submitOtherBonus 函式
+async function submitOtherBonus() {
+    const player = document.getElementById('otherBonusPlayerSelect').value;
+    const selectedRadio = document.querySelector('input[name="otherBonusAmount"]:checked');
+    const reason = document.getElementById('otherBonusReason').value.trim();
+    
+    if (!player) {
+        alert('請選擇狗仔！');
+        return;
+    }
+    
+    if (!selectedRadio) {
+        alert('請選擇加分項目！');
+        return;
+    }
+
+    if (!reason) {
+        alert('請輸入加分原因！');
+        return;
+    }
+
+    const bonusAmount = parseInt(selectedRadio.value);
+    const finalLabel = reason;
+    
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'submitOtherBonus',
+                player: player,
+                bonuses: [{ label: finalLabel, score: bonusAmount }],
+                totalScore: bonusAmount,
+                isOtherBonus: true
+            })
+        });
+
+        // 檢查回應是否成功，但不強制解析為JSON
+        if (response.ok) {
+            alert(`加分已登錄！${player} 獲得 ${bonusAmount.toLocaleString()} 元`);
+            await loadData();
+            resetOtherBonusForm();
+        } else {
+            throw new Error(`伺服器回應錯誤: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error submitting other bonus:', error);
+        alert('提交加分失敗，請檢查網路連線。');
+    }
+}
+
+// 修改後的 deleteRecord 函式
+async function deleteRecord(recordId) {
+    if (!confirm('確定要刪除這筆記錄嗎？')) return;
+    
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'deleteRecord',
+                id: recordId
+            })
+        });
+
+        if (response.ok) {
+            alert('記錄已刪除！');
+            await loadData();
+        } else {
+            throw new Error(`伺服器回應錯誤: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error deleting record:', error);
+        alert('刪除記錄失敗，請檢查網路連線。');
+    }
+}
+
+// 修改後的 resetAllScores 函式
+async function resetAllScores() {
+    if (!confirm('確定要重置所有成績嗎？這個動作無法復原！')) return;
+    
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'resetAllScores'
+            })
+        });
+        
+        if (response.ok) {
+            alert('所有成績已重置！');
+            await loadData();
+            resetForm();
+            resetOtherBonusForm();
+        } else {
+            throw new Error(`伺服器回應錯誤: ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error resetting scores:', error);
+        alert('重置成績失敗，請檢查網路連線。');
+    }
+}
+
+        function updateLeaderboard() {
+            const leaderboard = document.getElementById('leaderboard');
+            updateLeaderboardContent(leaderboard);
+        }
+
+        function updateMainLeaderboard() {
+            const mainLeaderboard = document.getElementById('mainLeaderboard');
+            updateLeaderboardContent(mainLeaderboard);
+        }
+
+        function updateLeaderboardContent(container) {
+            if (Object.keys(scores).length === 0) {
+                container.innerHTML = '<div class="text-gray-500 text-center py-8">尚無成績記錄</div>';
+                return;
+            }
+
+            const sortedPlayers = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+            
+            container.innerHTML = '';
+            sortedPlayers.forEach((entry, index) => {
+                const [player, score] = entry;
+                const rank = index + 1;
+                let rankColor = 'bg-gray-100';
+                let rankIcon = '🏅';
+                
+                if (rank === 1) {
+                    rankColor = 'bg-gradient-to-r from-yellow-100 to-amber-100 border-yellow-300';
+                    rankIcon = '🥇';
+                } else if (rank === 2) {
+                    rankColor = 'bg-gradient-to-r from-gray-100 to-slate-100 border-gray-300';
+                    rankIcon = '🥈';
+                } else if (rank === 3) {
+                    rankColor = 'bg-gradient-to-r from-orange-100 to-amber-100 border-orange-300';
+                    rankIcon = '🥉';
+                }
+
+                const photosCount = records.filter(r => r.player === player && !r.isOtherBonus).length;
+                const div = document.createElement('div');
+                div.className = `score-item ${rankColor} rounded-lg p-4 border-2`;
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">${rankIcon}</span>
+                            <div>
+                                <span class="font-bold text-lg text-gray-800">${rank}. ${player}</span>
+                                <div class="text-sm text-gray-600">${photosCount} 張照片</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-2xl font-bold text-blue-600">${score.toLocaleString()}</div>
+                            <div class="text-sm text-gray-500">總獎金</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function updateDetailedRecords() {
+            const detailedRecords = document.getElementById('detailedRecords');
+            
+            if (records.length === 0) {
+                detailedRecords.innerHTML = '<div class="text-gray-500 text-center py-8">尚無詳細記錄</div>';
+                return;
+            }
+
+            detailedRecords.innerHTML = '';
+            
+            const groupedRecords = {};
+            records.forEach(record => {
+                if (!groupedRecords[record.player]) {
+                    groupedRecords[record.player] = [];
+                }
+                groupedRecords[record.player].push(record);
+            });
+            
+            // Sort players alphabetically for consistent display
+            Object.keys(groupedRecords).sort().forEach(player => {
+                const playerRecords = groupedRecords[player];
+                const playerDiv = document.createElement('div');
+                playerDiv.className = 'bg-gray-50 rounded-lg p-4 border border-gray-200';
+                
+                let recordsHtml = '';
+                playerRecords.sort((a, b) => b.id - a.id).forEach(record => {
+                    let bonusHtml = '';
+                    if (record.bonuses.length > 0) {
+                        bonusHtml = record.bonuses.map(bonus =>
+                            `<span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1">${bonus.label} (+${bonus.score.toLocaleString()}元)</span>`
+                        ).join('');
+                    }
+                    
+                    const recordType = record.isOtherBonus ? '其他加分' : `照片`;
+                    
+                    recordsHtml += `
+                        <div class="bg-white rounded-lg p-3 border border-gray-200 mb-2">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-medium text-gray-800">${recordType}</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-green-600">${record.totalScore.toLocaleString()}元</span>
+                                    <button onclick="deleteRecord(${record.id})" class="text-red-500 hover:text-red-700 text-sm">🗑️</button>
+                                </div>
+                            </div>
+                            ${bonusHtml ? `<div class="mb-2">${bonusHtml}</div>` : ''}
+                            <div class="text-xs text-gray-500">${record.timestamp}</div>
+                        </div>
+                    `;
+                });
+                
+                playerDiv.innerHTML = `
+                    <h4 class="font-bold text-lg text-gray-800 mb-3">${player} (總獎金: ${scores[player] ? scores[player].toLocaleString() : 0}元)</h4>
+                    ${recordsHtml}
+                `;
+                
+                detailedRecords.appendChild(playerDiv);
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('playerSelect').value = '';
+            document.getElementById('peopleCount').value = '';
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.getElementById('previewScore').textContent = '0';
+        }
+
+        function resetOtherBonusForm() {
+            document.getElementById('otherBonusPlayerSelect').value = '';
+            document.querySelectorAll('input[name="otherBonusAmount"]').forEach(radio => radio.checked = false);
+            document.getElementById('otherBonusReason').value = '';
+            document.getElementById('otherBonusPreview').textContent = '0';
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96bd110a96ec809d',t:'MTc1NDYzNTY5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
