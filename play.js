@@ -22,7 +22,7 @@ function hideLoading() {
 }
 
 function showLeaderboardLoading() {
-    const loadingHtml = `<div class="text-center py-10"><span class="text-gray-500 font-medium">正在讀取...</span></div>`;
+    const loadingHtml = `<div class="text-center py-10"><span class="text-gray-500 font-medium">正在讀取...<br>（免費伺服器比較慢）<br>（不能等到生氣）</span></div>`;
     document.getElementById('mainLeaderboard').innerHTML = loadingHtml;
     document.getElementById('leaderboard').innerHTML = loadingHtml;
     document.getElementById('detailedRecords').innerHTML = loadingHtml;
