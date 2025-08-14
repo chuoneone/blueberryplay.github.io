@@ -8,9 +8,8 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbywB-x0xMvRt5b4_DoAMCwm
 // Global variables
 let scores = {};
 let records = [];
-let players = ['張莘昕', '謝宛庭', '林翠萍', '林晏儀', '黃佳儀', '李欣諭', '陳盈妙', '陳孟欣', '高鈺雅', '洪于茜', '李侑蓁', '陳屏慈', '黃怡茹', '鍾采珍', '李玨瑩'];
-let actions = ['飲食', '使用民宿設施（不包含玩遊戲設施）', '玩遊戲', '笑的樣子', '不笑的樣子'];
-let lotteryResults = [];
+let players = ['張莘昕', '謝宛庭', '林翠萍', '林晏儀', '黃佳儀', '李欣諭', '陳盈妙', '陳孟欣', '高鈺雅', '洪于茜', '李侑蓁', '黃怡茹', '鍾采珍', '李玨瑩','林芮儀',];
+// let actions = ['飲食', '使用民宿設施（不包含玩遊戲設施）', '玩遊戲', '笑的樣子', '不笑的樣子']; // 抽籤功能已移除
 
 // 【新增】讀取提示框的輔助函式
 function showLoading(message = '處理中...') {
@@ -65,44 +64,6 @@ function checkScorePassword() {
     }
 }
 
-function runFullLottery() {
-    if (lotteryResults.length > 0 && !confirm('已經執行過抽籤了，確定要重新抽籤嗎？')) {
-        return;
-    }
-    lotteryResults = [];
-    let currentPlayers = [...players];
-    let potentialTargets = [...players];
-    for (let i = currentPlayers.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [potentialTargets[i], potentialTargets[j]] = [potentialTargets[j], potentialTargets[i]];
-    }
-    currentPlayers.forEach((player, i) => {
-        let target = potentialTargets[i];
-        if (player === target) {
-            const swapIndex = (i + 1) % potentialTargets.length;
-            [potentialTargets[i], potentialTargets[swapIndex]] = [potentialTargets[swapIndex], potentialTargets[i]];
-            target = potentialTargets[i];
-        }
-        const randomAction = actions[Math.floor(Math.random() * actions.length)];
-        lotteryResults.push({ player, target, action: randomAction });
-    });
-    displayFullLotteryResults();
-}
-
-function displayFullLotteryResults() {
-    const container = document.getElementById('fullLotteryResults');
-    if (lotteryResults.length === 0) {
-        container.innerHTML = '<div class="text-gray-500 text-center py-4">尚未執行抽籤</div>';
-        return;
-    }
-    let html = `<div class="overflow-x-auto"><table class="min-w-full bg-white border border-gray-200 rounded-lg"><thead class="bg-gray-100"><tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">狗仔 (玩家)</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">女明星 (目標)</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">指定動作</th></tr></thead><tbody class="divide-y divide-gray-200">`;
-    lotteryResults.forEach(result => {
-        html += `<tr><td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">${result.player}</td><td class="px-6 py-4 whitespace-nowrap font-bold text-rose-600">${result.target}</td><td class="px-6 py-4 whitespace-nowrap text-purple-600">${result.action}</td></tr>`;
-    });
-    html += `</tbody></table></div>`;
-    container.innerHTML = html;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('scorePasswordInput').addEventListener('keypress', e => {
         if (e.key === 'Enter') checkScorePassword();
@@ -111,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function loadData() {
-    showLeaderboardLoading(); // 顯示「正在讀取...」
+    showLeaderboardLoading();
     try {
         const response = await fetch(API_URL);
         if (!response.ok) throw new Error(`伺服器錯誤: ${response.statusText}`);
@@ -131,24 +92,33 @@ async function loadData() {
     }
 }
         
-// 【已修改】加入讀取提示和「原因」欄位
 async function submitScore() {
     const player = document.getElementById('playerSelect').value;
     const scoreAmountInput = document.getElementById('scoreAmount');
-    const reasonInput = document.getElementById('reasonInput'); // 取得原因輸入框
     const amount = parseInt(scoreAmountInput.value, 10);
-    const reason = reasonInput.value.trim(); // 取得原因文字
+
+    const isPhotoChecked = document.getElementById('reasonCheckboxPhoto').checked;
+    const otherReason = document.getElementById('reasonInput').value.trim();
+    
+    let reasonParts = [];
+    if (isPhotoChecked) {
+        reasonParts.push('照片');
+    }
+    if (otherReason) {
+        reasonParts.push(otherReason);
+    }
+    let reason = reasonParts.join(' - ');
+
+    if (!reason) {
+        reason = '手動登錄';
+    }
 
     if (!player) {
         alert('請選擇狗仔！');
         return;
     }
-    if (isNaN(amount) || amount === 0) { // 允許負數，但不允許0
+    if (isNaN(amount) || amount === 0) {
         alert('請輸入有效的金額！');
-        return;
-    }
-    if (!reason) { // 確保原因不為空
-        alert('請輸入原因！');
         return;
     }
 
@@ -158,7 +128,6 @@ async function submitScore() {
     formData.append('action', 'submitScore');
     formData.append('player', player);
     formData.append('totalScore', amount);
-    // 將原因作為 label 傳送
     formData.append('bonuses', JSON.stringify([{ label: reason, score: amount }]));
 
     try {
@@ -252,7 +221,7 @@ function updateLeaderboardContent(container) {
 function updateLeaderboard() { updateLeaderboardContent(document.getElementById('leaderboard')); }
 function updateMainLeaderboard() { updateLeaderboardContent(document.getElementById('mainLeaderboard')); }
 
-// 【已修改】優化詳細記錄的顯示方式
+// 【已修改】優化詳細記錄的顯示方式，使其更緊湊
 function updateDetailedRecords() {
     const container = document.getElementById('detailedRecords');
     if (!records || records.length === 0) {
@@ -268,39 +237,40 @@ function updateDetailedRecords() {
     Object.keys(groupedRecords).sort().forEach(player => {
         const playerRecords = groupedRecords[player];
         const playerDiv = document.createElement('div');
-        playerDiv.className = 'bg-gray-50 rounded-lg p-4 border border-gray-200';
+        playerDiv.className = 'bg-gray-50 rounded-lg p-3 border border-gray-200'; // 縮小padding
         let recordsHtml = '';
         playerRecords.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).forEach(record => {
-            // 從 bonuses 陣列中提取原因和分數
             const reasonText = (record.bonuses && record.bonuses.length > 0) 
-                               ? record.bonuses[0].label 
-                               : '手動登錄';
+                                ? record.bonuses[0].label 
+                                : '手動登錄';
             const scoreText = record.totalScore > 0 
-                              ? `+${record.totalScore.toLocaleString()}` 
-                              : record.totalScore.toLocaleString();
+                                ? `+${record.totalScore.toLocaleString()}` 
+                                : record.totalScore.toLocaleString();
             const scoreColor = record.totalScore > 0 ? 'text-green-600' : 'text-red-600';
 
+            // 使用更緊湊的版面
             recordsHtml += `
-                <div class="bg-white rounded-lg p-3 border border-gray-200 mb-2">
-                    <div class="flex items-start justify-between">
-                        <span class="font-medium text-gray-800 flex-1 pr-4">${reasonText}</span>
-                        <div class="flex items-center gap-3 flex-shrink-0">
-                            <span class="font-bold text-lg ${scoreColor}">${scoreText}元</span>
-                            <button onclick="deleteRecord(${record.id})" class="text-gray-400 hover:text-red-600 text-lg leading-none">🗑️</button>
+                <div class="bg-white rounded-md p-2 border border-gray-200 mb-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-gray-800 flex-1 pr-2">${reasonText}</span>
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                            <span class="font-semibold text-base ${scoreColor}">${scoreText}元</span>
+                            <button onclick="deleteRecord(${record.id})" class="text-gray-400 hover:text-red-600 text-base leading-none">🗑️</button>
                         </div>
                     </div>
-                    <div class="text-xs text-gray-500 text-right mt-1">${new Date(record.timestamp).toLocaleString('zh-TW')}</div>
+                    <div class="text-xs text-gray-500 text-right">${new Date(record.timestamp).toLocaleString('zh-TW')}</div>
                 </div>
             `;
         });
-        playerDiv.innerHTML = `<h4 class="font-bold text-lg text-gray-800 mb-3">${player} (總獎金: ${scores[player] ? scores[player].toLocaleString() : 0}元)</h4>${recordsHtml}`;
+        // 縮小標題字體和下方間距
+        playerDiv.innerHTML = `<h4 class="font-bold text-base text-gray-800 mb-2">${player} (總獎金: ${scores[player] ? scores[player].toLocaleString() : 0}元)</h4>${recordsHtml}`;
         container.appendChild(playerDiv);
     });
 }
 
-// 【已修改】一併清除原因欄位
 function resetForm() {
     document.getElementById('playerSelect').value = '';
     document.getElementById('scoreAmount').value = '';
-    document.getElementById('reasonInput').value = ''; // 清除原因輸入框
+    document.getElementById('reasonCheckboxPhoto').checked = false;
+    document.getElementById('reasonInput').value = '';
 }
